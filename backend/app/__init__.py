@@ -16,6 +16,15 @@ JWT_SECRET_KEY = os.getenv("JWT_SECRET", "dev-jwt-secret-key")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_MINUTES = 60
 
+# Ensure the instance directory exists
+if "sqlite" in DATABASE_URL:
+    db_path = DATABASE_URL.replace("sqlite:///", "")
+    if db_path.startswith("./"):
+        db_path = db_path[2:]
+    db_dir = os.path.dirname(db_path)
+    if db_dir and not os.path.exists(db_dir):
+        os.makedirs(db_dir, exist_ok=True)
+
 engine = create_engine(
     DATABASE_URL,
     connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {},

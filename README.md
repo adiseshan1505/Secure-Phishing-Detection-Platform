@@ -81,6 +81,34 @@ npm run dev
 
 The React app will start on **http://localhost:5173**
 
+## 🐳 Deployment with Docker
+
+The platform includes a Docker configuration for easy deployment. This sets up the **Frontend** (Nginx serving React), **Backend** (FastAPI), and the **Database** volume automatically.
+
+### Prerequisites
+
+- **Docker** and **Docker Compose** installed on your machine.
+
+### Run with Docker Compose
+
+1. **Build and Start** the containers:
+   ```bash
+   docker-compose up --build -d
+   ```
+
+2. **Access the Application**:
+   - Frontend: **http://localhost** (Port 80)
+   - Backend API: **http://localhost:5000** (Port 5000)
+
+3. **Stop the Containers**:
+   ```bash
+   docker-compose down
+   ```
+
+### Persistent Data
+
+- The SQLite database is mounted from `./backend/instance` to ensure data persists between restarts.
+
 ## ⚙️ Configuration
 
 ### Environment Variables (`backend/.env`)
