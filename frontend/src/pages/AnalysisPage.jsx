@@ -2,7 +2,6 @@ import React from 'react';
 import { detectionService } from '../services';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import RiskMeter from '../components/RiskMeter';
 import AlertBox from '../components/AlertBox';
 import './AnalysisPage.css';
 
@@ -10,14 +9,14 @@ function AnalysisPage() {
     const [url, setUrl] = React.useState('');
     const [emailContent, setEmailContent] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    const [result, setResult] = React.useState(null);
+    const [success, setSuccess] = React.useState(null);
     const [error, setError] = React.useState('');
     const [activeTab, setActiveTab] = React.useState('url');
 
     const handleAnalyze = async (e) => {
         e.preventDefault();
         setError('');
-        setResult(null);
+        setSuccess(null);
 
         if (!url.trim()) {
             setError('Please enter a URL');
@@ -28,11 +27,12 @@ function AnalysisPage() {
 
         try {
             const response = await detectionService.analyzeUrl(url, emailContent);
-            setResult(response.data.result);
+            const result = response.data.result;
+            setSuccess(result);
             setUrl('');
             setEmailContent('');
         } catch (err) {
-            setError(err.response?.data?.error || 'Analysis failed');
+            setError(err.response?.data?.detail || 'Analysis failed');
         } finally {
             setLoading(false);
         }
@@ -52,6 +52,24 @@ function AnalysisPage() {
                                 message={error}
                                 onClose={() => setError('')}
                             />
+                        )}
+
+                        {success && (
+                            <div className={`success-banner ${success.is_phishing ? 'is-phishing' : 'is-safe'}`}>
+                                <div className="success-icon">
+                                    {success.is_phishing ? '🚨' : '✅'}
+                                </div>
+                                <div className="success-content">
+                                    <h4>{success.is_phishing ? 'Phishing Detected!' : 'URL Looks Safe'}</h4>
+                                    <p className="success-score">
+                                        Risk Score: <strong>{success.risk_score}%</strong> | Confidence: <strong>{success.confidence}%</strong>
+                                    </p>
+                                    <p className="success-hint">
+                                        📋 View detailed metrics and full history in the <a href="/history"><strong>History</strong></a> tab.
+                                    </p>
+                                </div>
+                                <button className="success-close" onClick={() => setSuccess(null)}>✕</button>
+                            </div>
                         )}
 
                         <div className="tabs">
@@ -117,49 +135,6 @@ function AnalysisPage() {
                         </Button>
                     </form>
                 </Card>
-
-                {result && (
-                    <Card title="Analysis Result" className="result-card">
-                        <div className="result-content">
-                            <RiskMeter score={result.risk_score} confidence={result.confidence} />
-
-                            <div className="result-details">
-                                <div className="detail-row">
-                                    <span className="detail-label">Status:</span>
-                                    <span className={`detail-value ${result.is_phishing ? 'danger' : 'success'}`}>
-                                        {result.is_phishing ? '🚨 PHISHING' : '✅ SAFE'}
-                                    </span>
-                                </div>
-
-                                <div className="detail-row">
-                                    <span className="detail-label">Detection Method:</span>
-                                    <span className="detail-value">{result.detection_method}</span>
-                                </div>
-
-                                <div className="detail-row">
-                                    <span className="detail-label">Rule-based Score:</span>
-                                    <span className="detail-value">{result.rule_based_score.toFixed(1)}%</span>
-                                </div>
-
-                                <div className="detail-row">
-                                    <span className="detail-label">ML-based Score:</span>
-                                    <span className="detail-value">{result.ml_based_score.toFixed(1)}%</span>
-                                </div>
-
-                                {result.suspicious_features && result.suspicious_features.length > 0 && (
-                                    <div className="features-section">
-                                        <h4>Suspicious Features Detected:</h4>
-                                        <ul className="features-list">
-                                            {result.suspicious_features.map((feature, idx) => (
-                                                <li key={idx}>⚠️ {feature.replace(/_/g, ' ')}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </Card>
-                )}
             </div>
         </div>
     );

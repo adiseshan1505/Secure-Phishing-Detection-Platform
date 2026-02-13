@@ -42,7 +42,7 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
                     <Route path="/register" element={<RegisterPage />} />
-                    <Route path="*" element={<Navigate to="/login" />} />
+                    <Route path="*" element={<Navigate to="/register" />} />
                 </Routes>
             </Router>
         );

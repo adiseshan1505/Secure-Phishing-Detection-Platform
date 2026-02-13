@@ -20,10 +20,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 401 || (error.response?.status === 404 && error.response?.data?.detail === "User not found")) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login';
+            window.location.href = '/register';
         }
         return Promise.reject(error);
     }

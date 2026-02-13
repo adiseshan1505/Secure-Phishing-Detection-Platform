@@ -8,7 +8,7 @@ class DetectionResult(Base):
     __tablename__ = "detection_results"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
     url = Column(String(2048), nullable=False, index=True)
     email_content = Column(String, nullable=True)
     is_phishing = Column(Boolean, nullable=False)

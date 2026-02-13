@@ -8,12 +8,29 @@ from app.models.detection import DetectionResult
 from app.ml_engine import HybridDetector
 from app.utils.validation import validate_url, get_client_ip, get_user_agent
 from app.utils.security import get_current_user_id
+import numpy as np
 import logging
 
 logger = logging.getLogger(__name__)
 detection_router = APIRouter()
 
 detector = HybridDetector()
+
+
+def sanitize_value(obj):
+    if isinstance(obj, dict):
+        return {k: sanitize_value(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_value(item) for item in obj]
+    if isinstance(obj, (np.bool_,)):
+        return bool(obj)
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.floating,)):
+        return float(obj)
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    return obj
 
 
 class AnalyzeRequest(BaseModel):
@@ -47,17 +64,17 @@ async def analyze_url(
         if not validate_url(url):
             raise HTTPException(status_code=400, detail="Invalid URL format")
 
-        result = detector.detect(url, email_content)
+        result = sanitize_value(detector.detect(url, email_content))
 
         detection = DetectionResult(
             user_id=user_id,
             url=url,
             email_content=email_content if email_content else None,
-            is_phishing=result["is_phishing"],
-            risk_score=result["risk_score"],
-            confidence=result["confidence"],
-            rule_based_score=result["rule_based_score"],
-            ml_based_score=result["ml_based_score"],
+            is_phishing=bool(result["is_phishing"]),
+            risk_score=float(result["risk_score"]),
+            confidence=float(result["confidence"]),
+            rule_based_score=float(result["rule_based_score"]),
+            ml_based_score=float(result["ml_based_score"]),
             detection_method=result["detection_method"],
             suspicious_features=result.get("suspicious_features"),
             url_analysis=result.get("rule_features"),
@@ -77,11 +94,11 @@ async def analyze_url(
             "result": {
                 "id": detection.id,
                 "url": url,
-                "is_phishing": result["is_phishing"],
-                "risk_score": round(result["risk_score"], 2),
-                "confidence": round(result["confidence"], 2),
-                "rule_based_score": round(result["rule_based_score"], 2),
-                "ml_based_score": round(result["ml_based_score"], 2),
+                "is_phishing": bool(result["is_phishing"]),
+                "risk_score": round(float(result["risk_score"]), 2),
+                "confidence": round(float(result["confidence"]), 2),
+                "rule_based_score": round(float(result["rule_based_score"]), 2),
+                "ml_based_score": round(float(result["ml_based_score"]), 2),
                 "detection_method": result["detection_method"],
                 "suspicious_features": result.get("suspicious_features"),
                 "timestamp": detection.timestamp.isoformat()
@@ -182,16 +199,16 @@ async def batch_analyze(
                 results.append({"url": url, "error": "Invalid URL format"})
                 continue
 
-            detection_result = detector.detect(url)
+            detection_result = sanitize_value(detector.detect(url))
 
             detection = DetectionResult(
                 user_id=user_id,
                 url=url,
-                is_phishing=detection_result["is_phishing"],
-                risk_score=detection_result["risk_score"],
-                confidence=detection_result["confidence"],
-                rule_based_score=detection_result["rule_based_score"],
-                ml_based_score=detection_result["ml_based_score"],
+                is_phishing=bool(detection_result["is_phishing"]),
+                risk_score=float(detection_result["risk_score"]),
+                confidence=float(detection_result["confidence"]),
+                rule_based_score=float(detection_result["rule_based_score"]),
+                ml_based_score=float(detection_result["ml_based_score"]),
                 detection_method=detection_result["detection_method"],
                 suspicious_features=detection_result.get("suspicious_features"),
                 url_analysis=detection_result.get("rule_features"),
@@ -204,9 +221,9 @@ async def batch_analyze(
 
             results.append({
                 "url": url,
-                "is_phishing": detection_result["is_phishing"],
-                "risk_score": round(detection_result["risk_score"], 2),
-                "confidence": round(detection_result["confidence"], 2)
+                "is_phishing": bool(detection_result["is_phishing"]),
+                "risk_score": round(float(detection_result["risk_score"]), 2),
+                "confidence": round(float(detection_result["confidence"]), 2)
             })
 
         db.commit()
