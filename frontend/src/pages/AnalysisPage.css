@@ -1,0 +1,146 @@
+.analysis-page {
+    max-width: 1200px;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 968px) {
+    .analysis-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.analysis-form-card {
+    height: fit-content;
+}
+
+.analysis-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn:hover {
+    color: var(--text-dark);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.result-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.result-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--light-bg);
+    border-radius: 6px;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.detail-value {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.detail-value.danger {
+    color: #dc2626;
+}
+
+.detail-value.success {
+    color: #10b981;
+}
+
+.features-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.features-section h4 {
+    margin-bottom: 0.75rem;
+    color: var(--warning-color);
+}
+
+.features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 0;
+}
+
+.features-list li {
+    padding: 0.5rem;
+    background-color: #fef3c7;
+    border-radius: 4px;
+    color: #78350f;
+}

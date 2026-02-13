@@ -1,0 +1,126 @@
+.history-page {
+    max-width: 1400px;
+}
+
+.results-table-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.results-table thead {
+    background-color: var(--light-bg);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.results-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.results-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.results-table tbody tr:hover {
+    background-color: var(--light-bg);
+}
+
+.url-cell a {
+    color: var(--primary-color);
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.url-cell a:hover {
+    text-decoration: underline;
+}
+
+.status-cell {
+    font-weight: 500;
+}
+
+.badge-danger {
+    background-color: #fee2e2;
+    color: #7f1d1d;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.badge-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.score-cell,
+.confidence-cell {
+    font-weight: 600;
+}
+
+.method-cell {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.timestamp-cell {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.row-phishing {
+    background-color: #fef2f2;
+}
+
+.row-safe {
+    background-color: #f0fdf4;
+}

@@ -1,0 +1,124 @@
+.admin-page {
+    max-width: 1400px;
+}
+
+.admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.tab-btn:hover {
+    color: var(--text-dark);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.admin-stat-card {
+    text-align: center;
+    padding: 2rem !important;
+}
+
+.admin-stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.admin-stat-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.admin-stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.users-table-container {
+    overflow-x: auto;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.users-table thead {
+    background-color: var(--light-bg);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.users-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.users-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.users-table tbody tr:hover {
+    background-color: var(--light-bg);
+}
+
+.role-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.role-admin {
+    background-color: #fee2e2;
+    color: #7f1d1d;
+}
+
+.role-analyst {
+    background-color: #fef3c7;
+    color: #78350f;
+}
+
+.role-user {
+    background-color: #dbeafe;
+    color: #0c2d6b;
+}
+
+.status-active {
+    color: #10b981;
+    font-weight: 500;
+}
+
+.status-inactive {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+.action-btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.85rem !important;
+}
