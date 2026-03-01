@@ -50,8 +50,13 @@ function RegisterPage() {
             setSuccess('🔒 Registration successful! Credentials encrypted with AES-256-GCM. Redirecting to login...');
             setTimeout(() => navigate('/login'), 2500);
         } catch (err) {
-            setEncryptionStatus('failed');
-            setError(err.response?.data?.error || 'Registration failed');
+            const errorMsg = err.response?.data?.detail || err.response?.data?.error || 'Registration failed';
+            if (!err.response || err.response.status >= 500) {
+                setEncryptionStatus('failed');
+            } else {
+                setEncryptionStatus(null);
+            }
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }

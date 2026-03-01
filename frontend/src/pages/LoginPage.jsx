@@ -28,8 +28,13 @@ function LoginPage() {
             setSuccess('✅ OTP sent to your email (AES-256 encrypted channel)');
             setTimeout(() => setStep('otp'), 1000);
         } catch (err) {
-            setEncryptionStatus('failed');
-            setError(err.response?.data?.error || 'Failed to request OTP');
+            const errorMsg = err.response?.data?.detail || err.response?.data?.error || 'Failed to request OTP';
+            if (!err.response || err.response.status >= 500) {
+                setEncryptionStatus('failed');
+            } else {
+                setEncryptionStatus(null);
+            }
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -58,8 +63,13 @@ function LoginPage() {
             window.dispatchEvent(new Event('storage'));
             setTimeout(() => navigate('/'), 1500);
         } catch (err) {
-            setEncryptionStatus('failed');
-            setError(err.response?.data?.error || 'Failed to verify OTP');
+            const errorMsg = err.response?.data?.detail || err.response?.data?.error || 'Failed to verify OTP';
+            if (!err.response || err.response.status >= 500) {
+                setEncryptionStatus('failed');
+            } else {
+                setEncryptionStatus(null);
+            }
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
